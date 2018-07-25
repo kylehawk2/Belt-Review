@@ -73,6 +73,6 @@ def book(request, id):
         return redirect('/')
     context = {
         'book': Book.objects.get(id=id),
-        'review': Review.objects.filter(book=Book.objects.get(id=id).order_by("created_at"))
+        'review': Review.objects.filter(book=Book.objects.get(id=id).order_by("-created_at"))
     }
     return render(request, 'belt/books.html', context)
