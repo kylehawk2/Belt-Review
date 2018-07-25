@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Book Info</title>
 </head>
 <body>
     <h1>Book Information:</h1>
     <ul>
         <li><label><u>Title:</u></label>{{ book.title }}</li>
         <li><label><u>Author:</u></label>{{ book.author }}</li>
-        <li><label><u>Review:</u></label>{{ review.review }}</li>
+        {% for rev in review %}
+        <li><label>Review:</label></li>
+        <p><a href='/book/{{ rev.book.id }}'>{{ rev.book.title }}</a></p>
+        <p>{{ rev.review }}</p>
+        {% endfor %}
     </ul>
+    <h2>Add a Review:</h2>
+    <form action='new_review' method='POST'>
+        {% csrf_token %}
+        <textarea rows='4' col='50' name='review'></textarea>
+        <input type='submit' value='Add Review'>
+    </form>
+    <a href='/home'>Go Home</a>
 </body>
 </html>

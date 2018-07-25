@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=\, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Review</title>
 </head>
 <body>
-    <h2>Add a Book, {{ users.name }}</h2>
+    <h2>Add a Book and Review, {{ users.name }}</h2>
     
     <form action='/bookreview/add_book' method='POST'>
         {% csrf_token %}

@@ -67,12 +67,29 @@ def add_book(request):
         Review.objects.create(review=request.POST['review'], book=Book.objects.get(id = r.id), user = User.objects.get(email=request.session['email']))
     return redirect('/home')
 
+def new_review(request, id):
+    print "*" * 80
+    Review.objects.create(review=request.POST.get('review'), book=Book.objects.get(id=request.POST['id']), user=request.session['email'])
+    return redirect('/book/' + str(id))
+
 def book(request, id):
     print "*" * 80
     if len(request.session['email']) < 1:
         return redirect('/')
     context = {
         'book': Book.objects.get(id=id),
-        'review': Review.objects.filter(book=Book.objects.get(id=id).order_by("-created_at"))
+        'review': Review.objects.filter(book=Book.objects.get(id=id)).order_by("-created_at")
     }
     return render(request, 'belt/books.html', context)
+
+def user(request, id):
+    context = {
+        'user' : User.objects.get(id=id),
+        'review': Review.objects.filter(user=User.objects.get(id=id)).order_by('-created_at'),
+        'review_count': Review.objects.filter(user = User.objects.get(id=id)).count()
+    }
+    return render(request, 'belt/user.html', context)
+
+def logout(request):
+    request.session['email'] = ""
+    return redirect('/')
