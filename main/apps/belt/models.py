@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
 import re, bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
@@ -42,8 +43,8 @@ class Book(models.Model):
 
 class Review(models.Model):
     review = models.CharField(max_length=255)
-    book = models.ManyToManyField(Book, related_name="reviews")
-    user = models.ManyToManyField(User, related_name="reviews")
+    book = models.ForeignKey(Book, related_name="reviews")
+    user = models.ForeignKey(User, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

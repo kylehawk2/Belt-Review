@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, HttpResponse, redirect
-from models import User, UserManager
+from models import User, Book, Review, UserManager
 from django.contrib import messages
 import bcrypt
 
@@ -21,7 +21,8 @@ def register(request):
             hash1 = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
             User.objects.create(name=request.POST['name'], email=request.POST['email'], password=hash1)
             messages.error(request, 'Registration Successful')
-        return render(request, 'belt/home.html')
+        
+        return render(request, 'belt/home.html', { 'users' : User.objects.get(id=request.session['id']) })
 
 def login(request):
     email = request.POST['email']
@@ -34,6 +35,7 @@ def login(request):
         if ( bcrypt.checkpw(password.encode(), user[0].password.encode()) ):
             print "Password matches"
             request.session['id'] = user[0].id
+            request.session['email'] = email
             return redirect('/home')
         else:
             messages.error(request, "Invalid Password")
@@ -41,10 +43,36 @@ def login(request):
 
 def home(request):
     context = {
-        'users' : User.objects.get(id=request.session['id'])
+        'users' : User.objects.get(id=request.session['id']),
+        'review' : Review.objects.all().order_by('-created_at')[:3],
+        'books' : Book.objects.all()
     }
     return render(request, 'belt/home.html', context)
 
 def bookreview(request):
-    return render(request, 'belt/review.html')
-    
+    context = {
+        'users': User.objects.get(id=request.session['id'])
+    }
+    return render(request, 'belt/review.html', context)
+
+def add_book(request):
+    if request.POST['select'] != 'none':
+        r = Book.objects.get(title=request.POST['select'])
+        Review.objects.create(review = request.POST['review'], book=Book.objects.get(id = r.id), user = User.objects.get(email=request.session['email']))
+       
+    else:
+        # print request.POST
+        
+        r = Book.objects.create(title=request.POST['title'], author=request.POST['author'])
+        Review.objects.create(review=request.POST['review'], book=Book.objects.get(id = r.id), user = User.objects.get(email=request.session['email']))
+    return redirect('/home')
+
+def book(request, id):
+    print "*" * 80
+    if len(request.session['email']) < 1:
+        return redirect('/')
+    context = {
+        'book': Book.objects.get(id=id),
+        'review': Review.objects.filter(book=Book.objects.get(id=id).order_by("created_at"))
+    }
+    return render(request, 'belt/books.html', context)

@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Book Review</title>
+    <title>Document</title>
 </head>
 <body>
-    <h2>Add a Book {{ users.name }}</h2>
+    <h2>Add a Book, {{ users.name }}</h2>
     
-    <form action='' method='POST'>
+    <form action='/bookreview/add_book' method='POST'>
+        {% csrf_token %}
         <label>Book Title:</label>
         <input type='text' name='title'>
         <label>Author:</label>

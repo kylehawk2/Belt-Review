@@ -5,5 +5,7 @@ urlpatterns = [
     url(r'^register$', views.register),
     url(r'^login$', views.login),
     url(r'^home$', views.home),
-    url(r'^home/bookreview$', views.bookreview)
+    url(r'^home/bookreview$', views.bookreview),
+    url(r'^bookreview/add_book$', views.add_book),
+    url(r'^book/(?P<id>\d+)$', views.book)
 ]

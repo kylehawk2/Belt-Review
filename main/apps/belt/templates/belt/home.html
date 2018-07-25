@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Book</title>
-    {% load static %}
 </head>
 <body>
     <h1><u>Welcome! {{ users.name }}</u></h1>
@@ -16,7 +15,16 @@
             {% endfor %}
         </ul>
     {% endif %}
-   <a href='home/bookreview'>Add a Book Review</a>
+    <h2>Recent Book Reviews:</h2>
+    {{ review.books.author }}
+    {% for rev in review %}
+        <li><h3><a href='/book/{{ rev.book.id }}'>{{ rev.book.title }}</a></h3></li>
+        <li>{{ rev.review }}</li>
+        <li><h3><a href='/user/{{ rev.user.id }}'>{{ rev.user.name }}</a></h3></li>
+    {% endfor %}
+    <hr>
+    <br>
+    <a href='home/bookreview'>Add a Book Review</a>
     <a href='/'>Go Back</a>
 </body>
 </html>
