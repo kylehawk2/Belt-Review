@@ -18,9 +18,9 @@
     <h2>Recent Book Reviews:</h2>
     {{ review.books.author }}
     {% for rev in review %}
-        <li><h3><a href='/book/{{ rev.book.id }}'>{{ rev.book.title }}</a></h3></li>
+        <li><h3>Book Title: <a href='/book/{{ rev.book.id }}'>{{ rev.book.title }}</a></h3></li>
         <li>{{ rev.review }}</li>
-        <li><h3><a href='/user/{{ rev.user.id }}'>{{ rev.user.name }}</a></h3></li>
+        <li><h3>Reviewer: <a href='/user/{{ rev.user.id }}'>{{ rev.user.name }}</a></h3></li>
     {% endfor %}
     <hr>
     <br>

@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^book/(?P<id>\d+)$', views.book),
     url(r'user/(?P<id>\d+)$', views.user),
     url(r'^logout$', views.logout),
-    url(r'^book/new_review$', views.new_review)
+    url(r'^new_review/(?P<id>\d+)$', views.new_review)
 ]

@@ -7,19 +7,20 @@
     <title>Book Info</title>
 </head>
 <body>
-    <h1>Book Information:</h1>
+    <h2>Book Information:</h2>
     <ul>
         <li><label><u>Title:</u></label>{{ book.title }}</li>
         <li><label><u>Author:</u></label>{{ book.author }}</li>
         {% for rev in review %}
-        <li><label>Review:</label></li>
+        <li><label>Reviews:</label></li>
         <p><a href='/book/{{ rev.book.id }}'>{{ rev.book.title }}</a></p>
         <p>{{ rev.review }}</p>
         {% endfor %}
     </ul>
     <h2>Add a Review:</h2>
-    <form action='new_review' method='POST'>
+    <form action="/new_review/{{ book.id }}" method='POST'>
         {% csrf_token %}
+        <input type='hidden' name='id' value='{{book.id}}'>
         <textarea rows='4' col='50' name='review'></textarea>
         <input type='submit' value='Add Review'>
     </form>

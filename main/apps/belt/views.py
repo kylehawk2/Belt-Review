@@ -69,7 +69,11 @@ def add_book(request):
 
 def new_review(request, id):
     print "*" * 80
-    Review.objects.create(review=request.POST.get('review'), book=Book.objects.get(id=request.POST['id']), user=request.session['email'])
+    # if request.method == "POST":
+    #    user = User.objects.get(request.session['email'])
+    #    book = Book.objects.get(id=id)
+    #    Review.objects.create(user=user, book=book, review=request.POST.get('review'))
+    Review.objects.create(review=request.POST.get('review'), book=Book.objects.get(id=request.POST['id']), user=User.objects.get(id=request.POST['id']))
     return redirect('/book/' + str(id))
 
 def book(request, id):
